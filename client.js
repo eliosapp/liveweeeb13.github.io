@@ -64,7 +64,7 @@ client.on('end', () => {
 });
 
 client.on('error', (err) => {
-    console.error(`Erreur de connexion: ${err.message}`);
+    console.error(`Erreur de connexion`);
     
     console.log(`${itallic}Pour tout bug ajoutez ${green}@liveweeeb ${white}ou ${green}@test_befaci.coolate ${white}sur discord.`)
     console.log('Appuyez sur une touche pour réessayer...');
