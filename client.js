@@ -25,7 +25,7 @@ const rl = readline.createInterface({
     output: process.stdout,
     terminal: true
 });
-
+exec('title Elios Chat');
 let lineCount = 0;
 
 process.on('SIGINT', () => {
