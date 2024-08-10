@@ -1,5 +1,6 @@
 const net = require('net');
 const readline = require('readline');
+const { exec } = require('child_process');
 
 const reset = '\x1b[0m';
 const red = '\x1b[31m';
