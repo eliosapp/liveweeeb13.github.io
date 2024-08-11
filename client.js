@@ -18,7 +18,7 @@ const jsp = '\x1b[34;219m';
 const itallic = "\x1b[3m";
 
 const client = net.createConnection({ host: '51.75.25.2', port: 2012 }, () => {
-    console.log(`Connecté au serveur de chat ${itallic}${jsp}room 0${reset}`);
+    console.log('Connect success')
 });
 
 const rl = readline.createInterface({
