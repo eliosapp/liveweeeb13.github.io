@@ -37,31 +37,10 @@
             color: red;
             font-weight: bold;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: white;
-        }
-        
-        button:hover {
-            background-color: #0056b3;
-        }
+
     </style>
 </head>
 <body>
     <iframe src="https://www.gaming-style.com/POLYBLICY/Game/index.php" width="930" height="660" frameborder="0" scrolling="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-    <button id="closeButton">Fermer l'application</button>
-    
-    <script>
-        const { ipcRenderer } = require('electron');
-        
-        document.getElementById('closeButton').addEventListener('click', () => {
-            ipcRenderer.send('close-window');
-        });
-    </script>
 </body>
 </html>
