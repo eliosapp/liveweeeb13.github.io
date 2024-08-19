@@ -1,0 +1,90 @@
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const path = require('path');
+const fs = require('fs');
+const https = require('https');
+const imageUrl = 'https://www.gaming-style.com/POLYBLICY/assets/images/Logo_Low.png?v=0.0.1';
+const iconDir = path.join(__dirname, 'assets');
+const iconPath = path.join(iconDir, 'logo.png');
+const { exec } = require('child_process');
+if (!fs.existsSync(iconDir)) {
+    fs.mkdirSync(iconDir, { recursive: true });
+}
+
+
+function createWindow(icon) {
+    let win = new BrowserWindow({
+        width: 1500,
+        height: 900,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+        },
+        autoHideMenuBar: true,
+        icon: icon,
+        title: 'POLYBLICY GAME APP v1.1'
+    });
+
+    win.maximize();
+    win.loadURL('https://liveweeeb13.github.io/none/app.html');
+
+
+    exec('title fsfdsfds');
+
+    console.log('Fenêtre créée et chargée.');
+    ipcMain.on('close-window', () => {
+        console.log('Tentative de fermeture de la fenêtre...');
+        try {
+            if (win) {
+                win.close();
+            }
+        } catch (err) {
+            console.error(`Erreur lors de la fermeture de la fenêtre : ${err.message}`);
+            dialog.showErrorBox('Erreur', `Impossible de fermer l'application : ${err.message}`);
+        }
+    });
+
+    win.on('closed', () => {
+        console.log('La fenêtre a été fermée.');
+        win = null;
+    });
+
+    win.webContents.on('will-prevent-unload', (event) => {
+        event.preventDefault();
+        win.destroy();
+    });
+}
+
+app.whenReady().then(() => {
+    console.log('Application prête.');
+    https.get(imageUrl, (response) => {
+        if (response.statusCode === 200) {
+            const file = fs.createWriteStream(iconPath);
+            response.pipe(file);
+            file.on('finish', () => {
+                file.close(() => {
+                    console.log('Icône téléchargée et enregistrée.');
+                    createWindow(iconPath);
+                });
+            });
+        } else {
+            console.error(`Échec du téléchargement de l'icône : ${response.statusCode}`);
+            createWindow();
+        }
+    }).on('error', (err) => {
+        console.error(`Erreur de téléchargement de l'icône : ${err.message}`);
+        createWindow();
+    });
+
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+            createWindow(iconPath);
+        }
+    });
+});
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        console.log('Fermeture de l\'application.');
+        app.quit();
+    }
+});
