@@ -58,12 +58,14 @@
 </head>
 <body>
     <iframe src="https://www.gaming-style.com/POLYBLICY/Game/index.php" width="930" height="660" frameborder="0" scrolling="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-    <button onclick="closeTab()">Fermer l'Onglet</button>
+    <button id="closeButton">Fermer l'application</button>
+    
     <script>
-        function closeTab() {
-            // Ferme l'onglet 
-            window.close();
-        }
+        const { ipcRenderer } = require('electron');
+        
+        document.getElementById('closeButton').addEventListener('click', () => {
+            ipcRenderer.send('close-window');
+        });indow.close();
     </script>
 </body>
 
