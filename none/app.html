@@ -54,12 +54,27 @@
     <p><a draggable="false" href="https://discord.gg/Gr5CfeASPj" target="_blank">My discord</a> </p>
     <p><a draggable="false" href="https://discord.gg/polyblicy-731543534204878918" target="_blank">Poly discord</a> </p>
     <script>
-document.addEventListener('DOMContentLoaded', function() {
+      const { ipcRenderer } = require('electron');
 
-window.onbeforeunload = function() {
+async function checkForUpdate() {
+    try {
+        const appVersion = await ipcRenderer.invoke('get-app-version');
+        const latestVersion = '1.1';
 
-};
+        if (appVersion !== latestVersion) {
+            document.getElementById('update-message').innerText = 'Veuillez mettre à jour votre application avec ce lien : https://example.com/update';
+            document.getElementById('update-message').style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Erreur lors de la vérification de la version :', error);
+    }
+}
+
+document.getElementById('closeButton').addEventListener('click', () => {
+    ipcRenderer.send('close-window');
 });
+
+checkForUpdate();
     </script>
 </body>
 
